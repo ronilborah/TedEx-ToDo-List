@@ -124,7 +124,7 @@ export default function TasksPage() {
         </div>
 
         {/* Main content container - left aligned */}
-        <div className="pl-8 pr-4 py-8 pt-20">
+        <div className="pl-8 pr-4 py-8 pt-4">
           <div className="max-w-4xl">
             {/* Header with title only (add button moved to dock) */}
             <div className="mb-8 p-4 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl">
