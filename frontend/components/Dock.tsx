@@ -3,11 +3,12 @@
 import { motion, type MotionValue, useMotionValue, useSpring, type SpringOptions, AnimatePresence } from "framer-motion"
 import React from "react"
 import { Children, cloneElement, useEffect, useRef, useState } from "react"
-import { VscSearch, VscColorMode, VscSettingsGear, VscAdd } from "react-icons/vsc"
+import { VscAdd, VscSearch, VscColorMode, VscSettingsGear, VscSymbolColor } from "react-icons/vsc"
 import { useTheme } from "@/contexts/ThemeContext"
 import SearchDialog from "./SearchDialog"
 import { useRouter } from "next/navigation"
 import type { Task } from "./TaskCard"
+import { BackgroundDialog } from "./BackgroundDialog"
 
 export type DockItemData = {
   icon: React.ReactNode
@@ -141,6 +142,7 @@ interface DockComponentProps {
 export default function Dock({ onSettingsOpen, onAddTask, settings }: DockComponentProps) {
   const { toggleTheme } = useTheme()
   const [showSearch, setShowSearch] = useState(false)
+  const [showBackgrounds, setShowBackgrounds] = useState(false)
   const router = useRouter()
 
   const handleTaskSelect = (task: Task) => {
@@ -157,6 +159,11 @@ export default function Dock({ onSettingsOpen, onAddTask, settings }: DockCompon
       icon: <VscSearch size={18} />,
       label: "Search",
       onClick: () => setShowSearch(true),
+    },
+    {
+      icon: <VscSymbolColor size={18} />,
+      label: "Backgrounds",
+      onClick: () => setShowBackgrounds(true),
     },
     {
       icon: <VscColorMode size={18} />,
@@ -220,6 +227,10 @@ export default function Dock({ onSettingsOpen, onAddTask, settings }: DockCompon
         isOpen={showSearch}
         onClose={() => setShowSearch(false)}
         onTaskSelect={handleTaskSelect}
+      />
+      <BackgroundDialog
+        isOpen={showBackgrounds}
+        onClose={() => setShowBackgrounds(false)}
       />
     </>
   )
