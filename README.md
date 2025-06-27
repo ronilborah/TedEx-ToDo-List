@@ -281,4 +281,4 @@ MIT License - see LICENSE file for details.
 For questions or issues:
 - Check the troubleshooting section
 - Review API documentation in `backend/README-backend.md`
-- Open an issue on GitHub 
+- Open an issue on GitHub
