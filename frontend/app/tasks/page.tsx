@@ -126,7 +126,7 @@ export default function TasksPage() {
 
             {/* Header with title only (add button moved to dock) */}
             <div className="mb-8 p-4 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl">
-              <h1 className="text-3xl font-bold text-high-contrast">Tasks</h1>
+              <h1 className="text-4xl font-bold text-high-contrast">Tasks</h1>
             </div>
 
             {/* Tasks list */}
