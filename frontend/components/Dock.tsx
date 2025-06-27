@@ -1,12 +1,13 @@
 "use client"
 
 import { motion, type MotionValue, useMotionValue, useSpring, type SpringOptions, AnimatePresence } from "framer-motion"
-import type React from "react"
+import React from "react"
 import { Children, cloneElement, useEffect, useRef, useState } from "react"
 import { VscSearch, VscColorMode, VscSettingsGear, VscAdd } from "react-icons/vsc"
 import { useTheme } from "@/contexts/ThemeContext"
-import { SearchDialog } from "./SearchDialog"
+import SearchDialog from "./SearchDialog"
 import { useRouter } from "next/navigation"
+import type { Task } from "./TaskCard"
 
 export type DockItemData = {
   icon: React.ReactNode
@@ -73,7 +74,12 @@ function DockItem({
       role="button"
       aria-haspopup="true"
     >
-      {Children.map(children, (child) => cloneElement(child as React.ReactElement, { isHovered }))}
+      {Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          return cloneElement(child, {})
+        }
+        return child
+      })}
     </motion.div>
   )
 }
@@ -136,6 +142,10 @@ export default function Dock({ onSettingsOpen, onAddTask, settings }: DockCompon
   const { toggleTheme } = useTheme()
   const [showSearch, setShowSearch] = useState(false)
   const router = useRouter()
+
+  const handleTaskSelect = (task: Task) => {
+    router.push(`/edit/${task.id}`)
+  }
 
   const items: DockItemData[] = [
     {
@@ -206,7 +216,11 @@ export default function Dock({ onSettingsOpen, onAddTask, settings }: DockCompon
         </motion.div>
       </div>
 
-      <SearchDialog isOpen={showSearch} onClose={() => setShowSearch(false)} />
+      <SearchDialog
+        isOpen={showSearch}
+        onClose={() => setShowSearch(false)}
+        onTaskSelect={handleTaskSelect}
+      />
     </>
   )
 }
