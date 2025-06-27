@@ -89,6 +89,19 @@ NODE_ENV=development
 NEXT_PUBLIC_API_URL=http://localhost:6900/api
 ```
 
+**Frontend API Integration Setup:**
+To enable backend API integration (recommended), create a `.env.local` file in the `frontend/` directory:
+```bash
+# Create frontend environment file
+echo "NEXT_PUBLIC_API_URL=http://localhost:6900/api" > frontend/.env.local
+```
+
+This enables:
+- MongoDB persistence instead of localStorage
+- Multi-device synchronization
+- Server-side data storage
+- Better data integrity and security
+
 ### 4. Start MongoDB
 ```bash
 # macOS (if installed via Homebrew)

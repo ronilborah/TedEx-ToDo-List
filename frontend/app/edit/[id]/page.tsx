@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation"
 import { useBackground } from "@/contexts/BackgroundContext"
 import TodoForm from "@/components/TodoForm"
 import type { Task } from "@/components/TaskCard"
-import { useState, useEffect } from "react"
+import { useTasksAPI } from "@/hooks/useTasksAPI"
+import { useEffect, useState } from "react"
 
 interface EditTaskPageProps {
   params: {
@@ -12,67 +13,24 @@ interface EditTaskPageProps {
   }
 }
 
-// Hook to manage tasks with localStorage persistence
-function useTasks() {
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  // Load tasks from localStorage
-  useEffect(() => {
-    try {
-      const savedTasks = localStorage.getItem("taskManagerTasks")
-      if (savedTasks) {
-        const parsed = JSON.parse(savedTasks)
-        const tasksWithDates = parsed.map((task: any) => ({
-          ...task,
-          createdAt: new Date(task.createdAt),
-          dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
-        }))
-        setTasks(tasksWithDates)
-      }
-    } catch (error) {
-      console.warn("Failed to load tasks from localStorage:", error)
-    } finally {
-      setIsLoaded(true)
-    }
-  }, [])
-
-  const updateTask = (id: string, taskData: Omit<Task, "id" | "createdAt" | "completed">) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === id
-        ? {
-            ...task,
-            ...taskData,
-          }
-        : task,
-    )
-    setTasks(updatedTasks)
-
-    // Save to localStorage
-    try {
-      localStorage.setItem("taskManagerTasks", JSON.stringify(updatedTasks))
-    } catch (error) {
-      console.warn("Failed to save tasks to localStorage:", error)
-    }
-  }
-
-  const getTask = (id: string) => {
-    return tasks.find((task) => task.id === id)
-  }
-
-  return { updateTask, getTask, isLoaded }
-}
-
 export default function EditTaskPage({ params }: EditTaskPageProps) {
   const router = useRouter()
   const { currentBackground } = useBackground()
-  const { updateTask, getTask, isLoaded } = useTasks()
+  const { updateTask, getTask, loading, error } = useTasksAPI()
+  const [task, setTask] = useState<Task | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
-  const task = getTask(params.id)
+  useEffect(() => {
+    const foundTask = getTask(params.id)
+    if (foundTask) {
+      setTask(foundTask)
+    }
+    setIsLoading(false)
+  }, [params.id, getTask])
 
-  const handleSubmit = (taskData: Omit<Task, "id" | "createdAt" | "completed">) => {
+  const handleSubmit = async (taskData: Omit<Task, "id" | "createdAt" | "completed">) => {
     try {
-      updateTask(params.id, taskData)
+      await updateTask(params.id, taskData)
       console.log("Updated task:", params.id, taskData)
       // Navigate back to tasks page
       router.push("/tasks")
@@ -86,8 +44,7 @@ export default function EditTaskPage({ params }: EditTaskPageProps) {
     router.push("/tasks")
   }
 
-  // Show loading while tasks are being loaded
-  if (!isLoaded) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-medium-contrast">Loading...</div>
@@ -95,16 +52,14 @@ export default function EditTaskPage({ params }: EditTaskPageProps) {
     )
   }
 
-  // Show error if task not found
   if (!task) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-high-contrast mb-4">Task Not Found</h1>
-          <p className="text-medium-contrast mb-4">The task you're looking for doesn't exist.</p>
+        <div className="text-red-500 text-center">
+          <p className="text-lg font-semibold">Task not found</p>
           <button
             onClick={() => router.push("/tasks")}
-            className="px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-black/80 dark:hover:bg-white/80 transition-colors"
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             Back to Tasks
           </button>
@@ -128,8 +83,21 @@ export default function EditTaskPage({ params }: EditTaskPageProps) {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold mb-8 text-center text-high-contrast">Edit Task</h1>
+
+            {error && (
+              <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                <p className="font-semibold">Error:</p>
+                <p>{error}</p>
+              </div>
+            )}
+
             <div className="bg-white/10 dark:bg-black/10 backdrop-blur-sm rounded-xl p-6">
-              <TodoForm task={task} onSubmit={handleSubmit} onCancel={handleCancel} />
+              <TodoForm
+                task={task}
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+                disabled={loading}
+              />
             </div>
           </div>
         </div>

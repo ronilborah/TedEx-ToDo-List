@@ -9,9 +9,10 @@ interface TodoFormProps {
   task?: Partial<Task>
   onSubmit: (taskData: Omit<Task, "id" | "createdAt" | "completed">) => void
   onCancel: () => void
+  disabled?: boolean
 }
 
-export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
+export default function TodoForm({ task, onSubmit, onCancel, disabled = false }: TodoFormProps) {
   const [formData, setFormData] = useState({
     title: task?.title || "",
     description: task?.description || "",
@@ -26,6 +27,7 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (disabled) return
     onSubmit({
       title: formData.title,
       description: formData.description,
@@ -37,6 +39,7 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
   }
 
   const addTag = () => {
+    if (disabled) return
     if (newTag.name.trim()) {
       setFormData((prev) => ({
         ...prev,
@@ -47,6 +50,7 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
   }
 
   const removeTag = (index: number) => {
+    if (disabled) return
     setFormData((prev) => ({
       ...prev,
       tags: prev.tags.filter((_, i) => i !== index),
@@ -63,9 +67,10 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
           type="text"
           id="title"
           required
+          disabled={disabled}
           value={formData.title}
           onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
-          className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
+          className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
         />
       </div>
 
@@ -76,9 +81,10 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
         <textarea
           id="description"
           rows={4}
+          disabled={disabled}
           value={formData.description}
           onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-          className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
+          className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
         />
       </div>
 
@@ -90,9 +96,10 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
           <input
             type="date"
             id="dueDate"
+            disabled={disabled}
             value={formData.dueDate}
             onChange={(e) => setFormData((prev) => ({ ...prev, dueDate: e.target.value }))}
-            className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
+            className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </div>
 
@@ -102,9 +109,10 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
           </label>
           <select
             id="recurring"
+            disabled={disabled}
             value={formData.recurring}
             onChange={(e) => setFormData((prev) => ({ ...prev, recurring: e.target.value }))}
-            className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
+            className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <option value="None">None</option>
             <option value="Daily">Daily</option>
@@ -121,9 +129,10 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
           </label>
           <select
             id="priority"
+            disabled={disabled}
             value={formData.priority}
             onChange={(e) => setFormData((prev) => ({ ...prev, priority: e.target.value as any }))}
-            className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
+            className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -145,9 +154,10 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
           </label>
           <select
             id="status"
+            disabled={disabled}
             value={formData.status}
             onChange={(e) => setFormData((prev) => ({ ...prev, status: e.target.value as any }))}
-            className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
+            className="w-full px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <option value="To Do">To Do</option>
             <option value="In Progress">In Progress</option>
@@ -197,20 +207,23 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
             <input
               type="text"
               placeholder="Tag name"
+              disabled={disabled}
               value={newTag.name}
               onChange={(e) => setNewTag((prev) => ({ ...prev, name: e.target.value }))}
-              className="flex-1 px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20"
+              className="flex-1 px-3 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <input
               type="color"
+              disabled={disabled}
               value={newTag.color}
               onChange={(e) => setNewTag((prev) => ({ ...prev, color: e.target.value }))}
-              className="w-12 h-10 border border-black/20 dark:border-white/20 rounded-lg"
+              className="w-12 h-10 border border-black/20 dark:border-white/20 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               type="button"
+              disabled={disabled}
               onClick={addTag}
-              className="px-4 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+              className="px-4 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Add
             </button>
@@ -225,8 +238,9 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
                 {tag.name}
                 <button
                   type="button"
+                  disabled={disabled}
                   onClick={() => removeTag(index)}
-                  className="hover:bg-black/20 rounded-full w-4 h-4 flex items-center justify-center"
+                  className="hover:bg-black/20 rounded-full w-4 h-4 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   ×
                 </button>
@@ -239,16 +253,18 @@ export default function TodoForm({ task, onSubmit, onCancel }: TodoFormProps) {
       <div className="flex gap-4 justify-end">
         <button
           type="button"
+          disabled={disabled}
           onClick={onCancel}
-          className="px-6 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+          className="px-6 py-2 border border-black/20 dark:border-white/20 rounded-lg bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="px-6 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-black/80 dark:hover:bg-white/80 transition-colors"
+          disabled={disabled}
+          className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {task ? "Update" : "Create"} Task
+          {disabled ? "Saving..." : "Save Task"}
         </button>
       </div>
     </form>

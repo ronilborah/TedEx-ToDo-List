@@ -1,10 +1,9 @@
 // ========================================
-// API INTEGRATION EXAMPLE
+// API INTEGRATION - ENABLED
 // ========================================
-// This file shows how to migrate from localStorage to the backend API
-// Uncomment and modify the code below to use the backend instead of localStorage
+// This file provides backend API integration for task persistence
+// Tasks are now stored in MongoDB instead of localStorage
 
-/*
 import { useState, useEffect } from "react"
 import type { Task } from "@/components/TaskCard"
 
@@ -221,7 +220,6 @@ export function useTasksAPI() {
     refreshTasks: loadTasks,
   }
 }
-*/
 
 // ========================================
 // MIGRATION INSTRUCTIONS
