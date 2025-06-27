@@ -125,7 +125,7 @@ export default function TasksPage() {
             <StatusCounters completed={completedCount} pending={pendingCount} overdue={overdueCount} />
 
             {/* Header with title only (add button moved to dock) */}
-            <div className="mb-8">
+            <div className="mb-8 p-4 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl border border-black/20 dark:border-white/20">
               <h1 className="text-3xl font-bold text-high-contrast">Tasks</h1>
             </div>
 
@@ -142,7 +142,7 @@ export default function TasksPage() {
               ))}
 
               {tasks.length === 0 && (
-                <div className="text-center py-12">
+                <div className="text-center py-12 p-6 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl border border-black/20 dark:border-white/20">
                   <p className="text-medium-contrast text-lg">No tasks yet. Create your first task to get started!</p>
                 </div>
               )}

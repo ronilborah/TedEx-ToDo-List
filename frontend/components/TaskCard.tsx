@@ -30,8 +30,8 @@ export default function TaskCard({ task, onToggleComplete, onEdit, onDelete }: T
     <>
       <div
         className={`
-        bg-transparent border border-black/20 dark:border-white/20 rounded-xl backdrop-blur-sm p-4
-        hover:shadow-lg hover:scale-[1.02] transition-all duration-200
+        bg-white/10 dark:bg-black/10 border border-black/20 dark:border-white/20 rounded-xl backdrop-blur-md p-4
+        hover:shadow-lg hover:scale-[1.02] hover:bg-white/15 dark:hover:bg-black/15 transition-all duration-200
         ${task.completed ? "opacity-60" : ""}
       `}
       >
