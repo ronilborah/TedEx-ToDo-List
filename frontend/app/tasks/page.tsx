@@ -118,12 +118,14 @@ export default function TasksPage() {
       <div className="min-h-screen relative" style={{ filter: "brightness(1.43)" }}>
         <Dock onSettingsOpen={() => setShowSettingsDialog(true)} onAddTask={handleAddTask} settings={dockSettings} />
 
+        {/* Status counters aligned with dock */}
+        <div className="fixed top-24 right-4 z-40">
+          <StatusCounters completed={completedCount} pending={pendingCount} overdue={overdueCount} />
+        </div>
+
         {/* Main content container - left aligned */}
         <div className="pl-8 pr-4 py-8 pt-20">
           <div className="max-w-4xl">
-            {/* Status counters below dock, aligned with tasks */}
-            <StatusCounters completed={completedCount} pending={pendingCount} overdue={overdueCount} />
-
             {/* Header with title only (add button moved to dock) */}
             <div className="mb-8 p-4 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl">
               <h1 className="text-5xl font-bold text-high-contrast">Tasks</h1>
