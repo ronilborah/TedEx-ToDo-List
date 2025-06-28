@@ -1737,6 +1737,9 @@ video {
 .font-semibold {
   font-weight: 600;
 }
+.uppercase {
+  text-transform: uppercase;
+}
 .capitalize {
   text-transform: capitalize;
 }
@@ -1752,6 +1755,9 @@ video {
 }
 .tracking-widest {
   letter-spacing: 0.1em;
+}
+.tracking-wide {
+  letter-spacing: 0.025em;
 }
 .text-accent-foreground {
   color: hsl(var(--accent-foreground));
@@ -3279,8 +3285,16 @@ body {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
+  .lg\:flex-col {
+    flex-direction: column;
+  }
+
   .lg\:gap-6 {
     gap: 1.5rem;
+  }
+
+  .lg\:gap-2 {
+    gap: 0.5rem;
   }
 
   .lg\:text-5xl {

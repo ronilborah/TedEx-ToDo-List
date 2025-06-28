@@ -8,18 +8,23 @@ interface StatusCountersProps {
 
 export default function StatusCounters({ completed, pending, overdue }: StatusCountersProps) {
   return (
-    <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mb-4 sm:mb-8 p-4 sm:p-6 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl">
-      <div className="text-center">
-        <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-high-contrast">{completed}</div>
-        <div className="text-sm sm:text-base text-medium-contrast break-words">Completed</div>
+    <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-2 mt-4">
+      {/* Completed */}
+      <div className="flex flex-col items-center">
+        <span className="text-2xl font-semibold text-high-contrast">{completed}</span>
+        <span className="text-sm uppercase tracking-wide text-medium-contrast">Completed</span>
       </div>
-      <div className="text-center">
-        <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-high-contrast">{pending}</div>
-        <div className="text-sm sm:text-base text-medium-contrast break-words">Pending</div>
+
+      {/* Pending */}
+      <div className="flex flex-col items-center">
+        <span className="text-2xl font-semibold text-high-contrast">{pending}</span>
+        <span className="text-sm uppercase tracking-wide text-medium-contrast">Pending</span>
       </div>
-      <div className="text-center">
-        <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-high-contrast">{overdue}</div>
-        <div className="text-sm sm:text-base text-medium-contrast break-words">Overdue</div>
+
+      {/* Overdue */}
+      <div className="flex flex-col items-center">
+        <span className="text-2xl font-semibold text-high-contrast">{overdue}</span>
+        <span className="text-sm uppercase tracking-wide text-medium-contrast">Overdue</span>
       </div>
     </div>
   )
