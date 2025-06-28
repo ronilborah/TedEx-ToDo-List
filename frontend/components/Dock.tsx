@@ -3,7 +3,8 @@
 import { motion, type MotionValue, useMotionValue, useSpring, type SpringOptions, AnimatePresence } from "framer-motion"
 import React from "react"
 import { Children, cloneElement, useEffect, useRef, useState } from "react"
-import { VscAdd, VscSearch, VscColorMode, VscSettingsGear } from "react-icons/vsc"
+import { VscAdd, VscSearch, VscColorMode } from "react-icons/vsc"
+import { MdGridView } from "react-icons/md"
 import { useTheme } from "@/contexts/ThemeContext"
 import SearchDialog from "./SearchDialog"
 import { useRouter } from "next/navigation"
@@ -159,14 +160,14 @@ export default function Dock({ onSettingsOpen, onAddTask, settings }: DockCompon
       onClick: () => setShowSearch(true),
     },
     {
+      icon: <MdGridView size={18} />,
+      label: "View Grid",
+      onClick: () => router.push("/view"),
+    },
+    {
       icon: <VscColorMode size={18} />,
       label: "Toggle Theme",
       onClick: toggleTheme,
-    },
-    {
-      icon: <VscSettingsGear size={18} />,
-      label: "Settings",
-      onClick: onSettingsOpen,
     },
   ]
 

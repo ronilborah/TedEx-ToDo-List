@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useTasksAPI } from "@/hooks/useTasksAPI"
+import { useTasks } from "@/hooks/useTasksAPI"
 import type { Task } from "./TaskCard"
 
 interface SearchDialogProps {
@@ -12,7 +12,7 @@ interface SearchDialogProps {
 
 export default function SearchDialog({ isOpen, onClose, onTaskSelect }: SearchDialogProps) {
   const [searchTerm, setSearchTerm] = useState("")
-  const { tasks, loading } = useTasksAPI()
+  const { tasks, loading } = useTasks()
 
   // Filter tasks based on search term
   const filteredTasks = tasks.filter((task) =>

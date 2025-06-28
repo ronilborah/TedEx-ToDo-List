@@ -1,5 +1,6 @@
 {
   "/tasks/page": "app/tasks/page.js",
   "/add/page": "app/add/page.js",
-  "/edit/[id]/page": "app/edit/[id]/page.js"
+  "/edit/[id]/page": "app/edit/[id]/page.js",
+  "/view/page": "app/view/page.js"
 }

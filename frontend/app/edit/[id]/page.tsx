@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { useBackground } from "@/contexts/BackgroundContext"
 import TodoForm from "@/components/TodoForm"
 import type { Task } from "@/components/TaskCard"
-import { useTasksAPI } from "@/hooks/useTasksAPI"
+import { useTasks } from "@/hooks/useTasksAPI"
 import { useEffect, useState } from "react"
 
 interface EditTaskPageProps {
@@ -16,7 +16,7 @@ interface EditTaskPageProps {
 export default function EditTaskPage({ params }: EditTaskPageProps) {
   const router = useRouter()
   const { currentBackground } = useBackground()
-  const { updateTask, getTask, loading, error } = useTasksAPI()
+  const { updateTask, getTask, loading, error } = useTasks()
   const [task, setTask] = useState<Task | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 

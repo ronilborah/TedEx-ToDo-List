@@ -7,7 +7,7 @@ import StatusCounters from "@/components/StatusCounters"
 import TaskCard, { type Task } from "@/components/TaskCard"
 import { SettingsDialog } from "@/components/SettingsDialog"
 import BackgroundRenderer from "@/components/BackgroundRenderer"
-import { useTasksAPI } from "@/hooks/useTasksAPI"
+import { useTasks } from "@/hooks/useTasksAPI"
 
 // Default dock settings
 const DEFAULT_DOCK_SETTINGS: DockSettings = {
@@ -60,7 +60,7 @@ function useDockSettings() {
 
 export default function TasksPage() {
   const router = useRouter()
-  const { tasks, toggleComplete, deleteTask, loading: tasksLoading, error: tasksError } = useTasksAPI()
+  const { tasks, toggleComplete, deleteTask, loading: tasksLoading, error: tasksError } = useTasks()
   const { dockSettings, updateDockSettings, isLoaded: dockLoaded } = useDockSettings()
   const [showSettingsDialog, setShowSettingsDialog] = useState(false)
 

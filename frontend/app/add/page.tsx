@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation"
 import { useBackground } from "@/contexts/BackgroundContext"
 import TodoForm from "@/components/TodoForm"
 import type { Task } from "@/components/TaskCard"
-import { useTasksAPI } from "@/hooks/useTasksAPI"
+import { useTasks } from "@/hooks/useTasksAPI"
 
 export default function AddTaskPage() {
   const router = useRouter()
   const { currentBackground } = useBackground()
-  const { addTask, loading, error } = useTasksAPI()
+  const { addTask, loading, error } = useTasks()
 
   const handleSubmit = async (taskData: Omit<Task, "id" | "createdAt" | "completed">) => {
     try {

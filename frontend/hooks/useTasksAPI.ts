@@ -7,204 +7,81 @@
 import { useState, useEffect } from "react"
 import type { Task } from "@/components/TaskCard"
 
-// API base URL - update this to match your backend URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:6900/api'
+const TASKS_KEY = "taskManagerTasks"
 
-// API response types
-interface ApiResponse<T> {
-  success: boolean
-  data: T
-  message?: string
-}
-
-interface ApiError {
-  success: false
-  error: {
-    message: string
-    statusCode: number
+function loadTasksFromStorage(): Task[] {
+  try {
+    const data = localStorage.getItem(TASKS_KEY)
+    if (!data) return []
+    const parsed = JSON.parse(data)
+    return parsed.map((task: any) => ({
+      ...task,
+      createdAt: new Date(task.createdAt),
+      dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
+    }))
+  } catch {
+    return []
   }
 }
 
-// Hook to manage tasks with API persistence
-export function useTasksAPI() {
+function saveTasksToStorage(tasks: Task[]) {
+  localStorage.setItem(TASKS_KEY, JSON.stringify(tasks))
+}
+
+export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Load tasks from API
-  const loadTasks = async () => {
+  useEffect(() => {
+    setLoading(true)
     try {
-      setLoading(true)
+      setTasks(loadTasksFromStorage())
       setError(null)
-
-      const response = await fetch(`${API_BASE_URL}/tasks`)
-      const result: ApiResponse<Task[]> = await response.json()
-
-      if (result.success) {
-        // Convert date strings back to Date objects
-        const tasksWithDates = result.data.map((task: any) => ({
-          ...task,
-          createdAt: new Date(task.createdAt),
-          dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
-        }))
-        setTasks(tasksWithDates)
-      } else {
-        throw new Error(result.message || 'Failed to load tasks')
-      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load tasks')
-      console.error('Failed to load tasks:', err)
+      setError("Failed to load tasks")
     } finally {
       setLoading(false)
     }
-  }
-
-  // Load tasks on mount
-  useEffect(() => {
-    loadTasks()
   }, [])
 
-  // Add new task
-  const addTask = async (taskData: Omit<Task, "id" | "createdAt" | "completed">) => {
-    try {
-      setError(null)
-
-      const response = await fetch(`${API_BASE_URL}/tasks`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(taskData),
-      })
-
-      const result: ApiResponse<Task> = await response.json()
-
-      if (result.success) {
-        const newTask = {
-          ...result.data,
-          createdAt: new Date(result.data.createdAt),
-          dueDate: result.data.dueDate ? new Date(result.data.dueDate) : undefined,
-        }
-        setTasks(prev => [newTask, ...prev])
-        return newTask.id
-      } else {
-        throw new Error(result.message || 'Failed to create task')
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create task')
-      console.error('Failed to create task:', err)
-      throw err
-    }
+  const save = (newTasks: Task[]) => {
+    setTasks(newTasks)
+    saveTasksToStorage(newTasks)
   }
 
-  // Update task
-  const updateTask = async (id: string, taskData: Partial<Omit<Task, "id" | "createdAt" | "completed">>) => {
-    try {
-      setError(null)
-
-      const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(taskData),
-      })
-
-      const result: ApiResponse<Task> = await response.json()
-
-      if (result.success) {
-        const updatedTask = {
-          ...result.data,
-          createdAt: new Date(result.data.createdAt),
-          dueDate: result.data.dueDate ? new Date(result.data.dueDate) : undefined,
-        }
-        setTasks(prev => prev.map(task => task.id === id ? updatedTask : task))
-        return updatedTask
-      } else {
-        throw new Error(result.message || 'Failed to update task')
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update task')
-      console.error('Failed to update task:', err)
-      throw err
+  const addTask = (taskData: Omit<Task, "id" | "createdAt" | "completed">) => {
+    const newTask: Task = {
+      ...taskData,
+      id: Math.random().toString(36).slice(2),
+      createdAt: new Date(),
+      completed: false,
     }
+    save([newTask, ...tasks])
+    return newTask.id
   }
 
-  // Toggle task completion
-  const toggleComplete = async (id: string) => {
-    try {
-      setError(null)
-
-      const response = await fetch(`${API_BASE_URL}/tasks/${id}/toggle`, {
-        method: 'PATCH',
-      })
-
-      const result: ApiResponse<Task> = await response.json()
-
-      if (result.success) {
-        const updatedTask = {
-          ...result.data,
-          createdAt: new Date(result.data.createdAt),
-          dueDate: result.data.dueDate ? new Date(result.data.dueDate) : undefined,
-        }
-        setTasks(prev => prev.map(task => task.id === id ? updatedTask : task))
-      } else {
-        throw new Error(result.message || 'Failed to toggle task')
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to toggle task')
-      console.error('Failed to toggle task:', err)
-    }
+  const updateTask = (id: string, taskData: Partial<Omit<Task, "id" | "createdAt" | "completed">>) => {
+    save(tasks.map(task => task.id === id ? { ...task, ...taskData } : task))
   }
 
-  // Delete task
-  const deleteTask = async (id: string) => {
-    try {
-      setError(null)
-
-      const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
-        method: 'DELETE',
-      })
-
-      const result: ApiResponse<null> = await response.json()
-
-      if (result.success) {
-        setTasks(prev => prev.filter(task => task.id !== id))
-      } else {
-        throw new Error(result.message || 'Failed to delete task')
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete task')
-      console.error('Failed to delete task:', err)
-    }
+  const toggleComplete = (id: string) => {
+    save(tasks.map(task => task.id === id ? { ...task, completed: !task.completed } : task))
   }
 
-  // Get task by ID
-  const getTask = (id: string) => {
-    return tasks.find(task => task.id === id)
+  const deleteTask = (id: string) => {
+    save(tasks.filter(task => task.id !== id))
   }
 
-  // Get task statistics
-  const getStats = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/tasks/stats`)
-      const result: ApiResponse<{
-        total: number
-        completed: number
-        pending: number
-        overdue: number
-        completionRate: number
-      }> = await response.json()
+  const getTask = (id: string) => tasks.find(task => task.id === id)
 
-      if (result.success) {
-        return result.data
-      } else {
-        throw new Error(result.message || 'Failed to get stats')
-      }
-    } catch (err) {
-      console.error('Failed to get stats:', err)
-      return null
-    }
+  const getStats = () => {
+    const total = tasks.length
+    const completed = tasks.filter(t => t.completed).length
+    const pending = tasks.filter(t => !t.completed && t.status !== "Done").length
+    const overdue = tasks.filter(t => !t.completed && t.dueDate && t.dueDate < new Date()).length
+    const completionRate = total ? completed / total : 0
+    return { total, completed, pending, overdue, completionRate }
   }
 
   return {
@@ -217,7 +94,7 @@ export function useTasksAPI() {
     deleteTask,
     getTask,
     getStats,
-    refreshTasks: loadTasks,
+    refreshTasks: () => setTasks(loadTasksFromStorage()),
   }
 }
 
