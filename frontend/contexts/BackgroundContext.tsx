@@ -29,42 +29,6 @@ const AVAILABLE_BACKGROUNDS: BackgroundOption[] = [
     type: "animated",
     component: "Threads",
   },
-  {
-    id: "blob-scene-haikei.svg",
-    name: "Blob Scene",
-    type: "image",
-    path: "/images/backgrounds/blob-scene-haikei.svg",
-  },
-  {
-    id: "layered-waves-haikei.svg",
-    name: "Layered Waves",
-    type: "image",
-    path: "/images/backgrounds/layered-waves-haikei.svg",
-  },
-  {
-    id: "low-poly-grid-haikei.svg",
-    name: "Low Poly Grid",
-    type: "image",
-    path: "/images/backgrounds/low-poly-grid-haikei.svg",
-  },
-  {
-    id: "polygon-scatter-haikei.svg",
-    name: "Polygon Scatter",
-    type: "image",
-    path: "/images/backgrounds/polygon-scatter-haikei.svg",
-  },
-  {
-    id: "stacked-peaks-haikei.svg",
-    name: "Stacked Peaks",
-    type: "image",
-    path: "/images/backgrounds/stacked-peaks-haikei.svg",
-  },
-  {
-    id: "stacked-waves-haikei.svg",
-    name: "Stacked Waves",
-    type: "image",
-    path: "/images/backgrounds/stacked-waves-haikei.svg",
-  },
 ]
 
 export function BackgroundProvider({ children }: { children: React.ReactNode }) {
