@@ -5,12 +5,12 @@ import { useBackground } from "@/contexts/BackgroundContext"
 import TodoForm from "@/components/TodoForm"
 import type { Task } from "@/components/TaskCard"
 import { useTasks } from "@/hooks/useTasksAPI"
-import { useEffect, useState } from "react"
+import { useEffect, useState, use } from "react"
 
 interface EditTaskPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default function EditTaskPage({ params }: EditTaskPageProps) {
@@ -20,18 +20,21 @@ export default function EditTaskPage({ params }: EditTaskPageProps) {
   const [task, setTask] = useState<Task | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
+  // Unwrap params using React.use()
+  const { id } = use(params)
+
   useEffect(() => {
-    const foundTask = getTask(params.id)
+    const foundTask = getTask(id)
     if (foundTask) {
       setTask(foundTask)
     }
     setIsLoading(false)
-  }, [params.id, getTask])
+  }, [id, getTask])
 
   const handleSubmit = async (taskData: Omit<Task, "id" | "createdAt" | "completed">) => {
     try {
-      await updateTask(params.id, taskData)
-      console.log("Updated task:", params.id, taskData)
+      await updateTask(id, taskData)
+      console.log("Updated task:", id, taskData)
       // Navigate back to tasks page
       router.push("/tasks")
     } catch (error) {
