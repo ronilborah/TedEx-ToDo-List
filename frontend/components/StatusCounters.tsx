@@ -11,20 +11,20 @@ export default function StatusCounters({ completed, pending, overdue }: StatusCo
     <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-2 mt-4">
       {/* Completed */}
       <div className="flex flex-col items-center">
-        <span className="text-2xl font-semibold text-high-contrast">{completed}</span>
-        <span className="text-sm uppercase tracking-wide text-medium-contrast">Completed</span>
+        <span className="text-2xl lg:text-4xl font-semibold text-high-contrast">{completed}</span>
+        <span className="text-sm lg:text-base uppercase tracking-wide text-medium-contrast">Completed</span>
       </div>
 
       {/* Pending */}
       <div className="flex flex-col items-center">
-        <span className="text-2xl font-semibold text-high-contrast">{pending}</span>
-        <span className="text-sm uppercase tracking-wide text-medium-contrast">Pending</span>
+        <span className="text-2xl lg:text-4xl font-semibold text-high-contrast">{pending}</span>
+        <span className="text-sm lg:text-base uppercase tracking-wide text-medium-contrast">Pending</span>
       </div>
 
       {/* Overdue */}
       <div className="flex flex-col items-center">
-        <span className="text-2xl font-semibold text-high-contrast">{overdue}</span>
-        <span className="text-sm uppercase tracking-wide text-medium-contrast">Overdue</span>
+        <span className="text-2xl lg:text-4xl font-semibold text-high-contrast">{overdue}</span>
+        <span className="text-sm lg:text-base uppercase tracking-wide text-medium-contrast">Overdue</span>
       </div>
     </div>
   )
