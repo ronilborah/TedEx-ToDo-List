@@ -8,7 +8,7 @@ interface StatusCountersProps {
 
 export default function StatusCounters({ completed, pending, overdue }: StatusCountersProps) {
   return (
-    <div className="flex flex-row lg:flex-col items-center gap-4 lg:gap-2 mt-4">
+    <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-8 mt-4">
       {/* Completed */}
       <div className="flex flex-col items-center">
         <span className="text-2xl lg:text-4xl font-semibold text-high-contrast">{completed}</span>

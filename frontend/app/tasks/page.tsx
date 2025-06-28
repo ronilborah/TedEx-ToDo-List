@@ -157,17 +157,15 @@ export default function TasksPage() {
 
         {/* Desktop layout: Status counters positioned with dock */}
         <div className="hidden sm:block">
-          {/* Status counters aligned with dock - desktop only */}
-          <div className="fixed top-24 right-4 z-40">
-            <StatusCounters completed={completedCount} pending={pendingCount} overdue={overdueCount} />
-          </div>
-
           {/* Main content container - desktop layout */}
           <div className="pl-8 pr-4 py-8 pt-4">
             <div className="max-w-4xl">
-              {/* Header with title only */}
+              {/* Header with title and status counters side by side */}
               <div className="mb-8 p-4 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl">
-                <h1 className="text-4xl lg:text-5xl font-bold text-high-contrast break-words">Tasks</h1>
+                <div className="flex items-center justify-between">
+                  <h1 className="text-4xl lg:text-5xl font-bold text-high-contrast break-words">Tasks</h1>
+                  <StatusCounters completed={completedCount} pending={pendingCount} overdue={overdueCount} />
+                </div>
               </div>
 
               {/* Tasks list */}
