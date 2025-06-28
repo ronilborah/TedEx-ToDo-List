@@ -118,41 +118,76 @@ export default function TasksPage() {
       <div className="min-h-screen relative" style={{ filter: "brightness(1.43)" }}>
         <Dock onSettingsOpen={() => setShowSettingsDialog(true)} onAddTask={handleAddTask} settings={dockSettings} />
 
-        {/* Status counters aligned with dock - responsive positioning */}
-        <div className="fixed top-24 right-4 z-40 sm:block hidden">
-          <StatusCounters completed={completedCount} pending={pendingCount} overdue={overdueCount} />
-        </div>
+        {/* Mobile layout: Status counters positioned below title and dock */}
+        <div className="sm:hidden">
+          {/* Main content container - mobile layout */}
+          <div className="px-4 py-8 pt-4">
+            <div className="max-w-4xl">
+              {/* Header with title only */}
+              <div className="mb-4 p-3 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl">
+                <h1 className="text-3xl font-bold text-high-contrast break-words">Tasks</h1>
+              </div>
 
-        {/* Mobile status counters - positioned differently on small screens */}
-        <div className="fixed top-20 left-4 right-4 z-40 sm:hidden">
-          <StatusCounters completed={completedCount} pending={pendingCount} overdue={overdueCount} />
-        </div>
+              {/* Status counters - positioned below title on mobile */}
+              <div className="mb-6">
+                <StatusCounters completed={completedCount} pending={pendingCount} overdue={overdueCount} />
+              </div>
 
-        {/* Main content container - responsive padding and spacing */}
-        <div className="px-4 sm:pl-8 sm:pr-4 py-8 pt-4 sm:pt-4">
-          <div className="max-w-4xl">
-            {/* Header with title only (add button moved to dock) - responsive text size */}
-            <div className="mb-4 sm:mb-8 p-3 sm:p-4 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-high-contrast break-words">Tasks</h1>
+              {/* Tasks list */}
+              <div className="space-y-3">
+                {sortedTasks.map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    onToggleComplete={toggleComplete}
+                    onEdit={handleEdit}
+                    onDelete={deleteTask}
+                  />
+                ))}
+
+                {tasks.length === 0 && (
+                  <div className="text-center py-8 p-4 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl border border-black/20 dark:border-white/20">
+                    <p className="text-medium-contrast text-base break-words">No tasks yet. Create your first task to get started!</p>
+                  </div>
+                )}
+              </div>
             </div>
+          </div>
+        </div>
 
-            {/* Tasks list - responsive spacing */}
-            <div className="space-y-3 sm:space-y-4">
-              {sortedTasks.map((task) => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  onToggleComplete={toggleComplete}
-                  onEdit={handleEdit}
-                  onDelete={deleteTask}
-                />
-              ))}
+        {/* Desktop layout: Status counters positioned with dock */}
+        <div className="hidden sm:block">
+          {/* Status counters aligned with dock - desktop only */}
+          <div className="fixed top-24 right-4 z-40">
+            <StatusCounters completed={completedCount} pending={pendingCount} overdue={overdueCount} />
+          </div>
 
-              {tasks.length === 0 && (
-                <div className="text-center py-8 sm:py-12 p-4 sm:p-6 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl border border-black/20 dark:border-white/20">
-                  <p className="text-medium-contrast text-base sm:text-lg break-words">No tasks yet. Create your first task to get started!</p>
-                </div>
-              )}
+          {/* Main content container - desktop layout */}
+          <div className="pl-8 pr-4 py-8 pt-4">
+            <div className="max-w-4xl">
+              {/* Header with title only */}
+              <div className="mb-8 p-4 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl">
+                <h1 className="text-4xl lg:text-5xl font-bold text-high-contrast break-words">Tasks</h1>
+              </div>
+
+              {/* Tasks list */}
+              <div className="space-y-4">
+                {sortedTasks.map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    onToggleComplete={toggleComplete}
+                    onEdit={handleEdit}
+                    onDelete={deleteTask}
+                  />
+                ))}
+
+                {tasks.length === 0 && (
+                  <div className="text-center py-12 p-6 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl border border-black/20 dark:border-white/20">
+                    <p className="text-medium-contrast text-lg break-words">No tasks yet. Create your first task to get started!</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
