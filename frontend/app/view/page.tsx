@@ -86,62 +86,62 @@ export default function ViewPage() {
                 </button>
             </div>
             <div className="min-h-screen relative" style={{ filter: "brightness(1.43)" }}>
-                {/* Consistent dock positioning */}
+                {/* Consistent dock positioning - responsive layout */}
                 <div className="fixed top-4 right-4 z-50">
-                    <div className="flex gap-2 items-center rounded-2xl border border-black/30 dark:border-white/30 py-2 px-3 bg-white/80 dark:bg-black/80">
-                        {/* Sort button */}
+                    <div className="flex flex-col sm:flex-row gap-1 sm:gap-2 items-center rounded-2xl border border-black/30 dark:border-white/30 py-2 px-2 sm:px-3 bg-white/80 dark:bg-black/80">
+                        {/* Sort button - responsive text */}
                         <button
-                            className="flex items-center gap-1 px-2 py-1 text-sm rounded hover:bg-black/10 dark:hover:bg-white/10"
+                            className="flex items-center gap-1 px-1 sm:px-2 py-1 text-xs sm:text-sm rounded hover:bg-black/10 dark:hover:bg-white/10"
                             onClick={() => setSortDir(d => (d === "asc" ? "desc" : "asc"))}
                             title={`Sort: ${sortBy} (${sortDir})`}
                         >
-                            <VscSortPrecedence size={18} />
+                            <VscSortPrecedence size={16} className="sm:w-[18px] sm:h-[18px]" />
                             <select
                                 value={sortBy}
                                 onChange={e => setSortBy(e.target.value)}
-                                className="bg-transparent outline-none text-sm"
+                                className="bg-transparent outline-none text-xs sm:text-sm min-w-0"
                             >
                                 {sortOptions.map(opt => (
                                     <option key={opt.value} value={opt.value}>{opt.label}</option>
                                 ))}
                             </select>
-                            <span>{sortDir === "asc" ? "↑" : "↓"}</span>
+                            <span className="text-xs sm:text-sm">{sortDir === "asc" ? "↑" : "↓"}</span>
                         </button>
                         {/* Filter button */}
                         <button
-                            className="flex items-center gap-1 px-2 py-1 text-sm rounded hover:bg-black/10 dark:hover:bg-white/10"
+                            className="flex items-center gap-1 px-1 sm:px-2 py-1 text-xs sm:text-sm rounded hover:bg-black/10 dark:hover:bg-white/10"
                             onClick={() => setShowFilter(f => !f)}
                             title="Filter"
                         >
-                            <VscFilter size={18} />
+                            <VscFilter size={16} className="sm:w-[18px] sm:h-[18px]" />
                         </button>
                         {/* Search button */}
                         <button
-                            className="flex items-center gap-1 px-2 py-1 text-sm rounded hover:bg-black/10 dark:hover:bg-white/10"
+                            className="flex items-center gap-1 px-1 sm:px-2 py-1 text-xs sm:text-sm rounded hover:bg-black/10 dark:hover:bg-white/10"
                             onClick={() => setShowSearch(s => !s)}
                             title="Search"
                         >
-                            <VscSearch size={18} />
+                            <VscSearch size={16} className="sm:w-[18px] sm:h-[18px]" />
                         </button>
                         {/* Dark/Light mode toggle */}
                         <button
-                            className="flex items-center gap-1 px-2 py-1 text-sm rounded hover:bg-black/10 dark:hover:bg-white/10"
+                            className="flex items-center gap-1 px-1 sm:px-2 py-1 text-xs sm:text-sm rounded hover:bg-black/10 dark:hover:bg-white/10"
                             onClick={toggleTheme}
                             title="Toggle Theme"
                         >
-                            <VscColorMode size={18} />
+                            <VscColorMode size={16} className="sm:w-[18px] sm:h-[18px]" />
                         </button>
                     </div>
                 </div>
 
-                {/* Filter panel */}
+                {/* Filter panel - responsive positioning and sizing */}
                 {showFilter && (
-                    <div className="fixed top-20 right-4 z-50 bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-xl p-4 shadow-lg flex flex-col gap-2 min-w-[200px]">
+                    <div className="fixed top-20 right-4 z-50 bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-xl p-3 sm:p-4 shadow-lg flex flex-col gap-2 min-w-[180px] sm:min-w-[200px] max-w-[calc(100vw-2rem)]">
                         <label className="text-xs font-semibold">Priority</label>
                         <select
                             value={filterPriority}
                             onChange={e => setFilterPriority(e.target.value)}
-                            className="bg-transparent border rounded px-2 py-1"
+                            className="bg-transparent border rounded px-2 py-1 text-sm"
                         >
                             <option value="">All</option>
                             <option value="High">High</option>
@@ -152,7 +152,7 @@ export default function ViewPage() {
                         <select
                             value={filterStatus}
                             onChange={e => setFilterStatus(e.target.value)}
-                            className="bg-transparent border rounded px-2 py-1"
+                            className="bg-transparent border rounded px-2 py-1 text-sm"
                         >
                             <option value="">All</option>
                             <option value="To Do">To Do</option>
@@ -162,27 +162,27 @@ export default function ViewPage() {
                     </div>
                 )}
 
-                {/* Search panel */}
+                {/* Search panel - responsive positioning and sizing */}
                 {showSearch && (
-                    <div className="fixed top-20 right-4 z-50 bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-xl p-4 shadow-lg flex flex-col gap-2 min-w-[200px]">
+                    <div className="fixed top-20 right-4 z-50 bg-white dark:bg-black border border-black/20 dark:border-white/20 rounded-xl p-3 sm:p-4 shadow-lg flex flex-col gap-2 min-w-[180px] sm:min-w-[200px] max-w-[calc(100vw-2rem)]">
                         <input
                             type="text"
                             placeholder="Search tasks..."
                             value={search}
                             onChange={e => setSearch(e.target.value)}
-                            className="bg-transparent border rounded px-2 py-1"
+                            className="bg-transparent border rounded px-2 py-1 text-sm"
                             autoFocus
                         />
                     </div>
                 )}
 
-                {/* Main content: grid of cards */}
-                <div className="pl-8 pr-4 py-8 pt-4">
+                {/* Main content: grid of cards - responsive layout */}
+                <div className="px-4 sm:pl-8 sm:pr-4 py-8 pt-4 sm:pt-4">
                     <div className="max-w-6xl mx-auto">
-                        <div className="mb-8 p-4 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl">
-                            <h1 className="text-5xl font-bold text-high-contrast">View Tasks</h1>
+                        <div className="mb-4 sm:mb-8 p-3 sm:p-4 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl">
+                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-high-contrast break-words">View Tasks</h1>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
                             {sortedTasks.map(task => (
                                 <TaskCard
                                     key={task.id}
@@ -193,8 +193,8 @@ export default function ViewPage() {
                                 />
                             ))}
                             {sortedTasks.length === 0 && (
-                                <div className="col-span-full text-center py-12 p-6 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl border border-black/20 dark:border-white/20">
-                                    <p className="text-medium-contrast text-lg">No tasks found.</p>
+                                <div className="col-span-full text-center py-8 sm:py-12 p-4 sm:p-6 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-xl border border-black/20 dark:border-white/20">
+                                    <p className="text-medium-contrast text-base sm:text-lg break-words">No tasks found.</p>
                                 </div>
                             )}
                         </div>

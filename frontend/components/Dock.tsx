@@ -150,22 +150,22 @@ export default function Dock({ onSettingsOpen, onAddTask, settings }: DockCompon
 
   const items: DockItemData[] = [
     {
-      icon: <VscAdd size={18} />,
+      icon: <VscAdd size={16} className="sm:w-[18px] sm:h-[18px]" />,
       label: "Add Task",
       onClick: onAddTask,
     },
     {
-      icon: <VscSearch size={18} />,
+      icon: <VscSearch size={16} className="sm:w-[18px] sm:h-[18px]" />,
       label: "Search",
       onClick: () => setShowSearch(true),
     },
     {
-      icon: <MdGridView size={18} />,
+      icon: <MdGridView size={16} className="sm:w-[18px] sm:h-[18px]" />,
       label: "View Grid",
       onClick: () => router.push("/view"),
     },
     {
-      icon: <VscColorMode size={18} />,
+      icon: <VscColorMode size={16} className="sm:w-[18px] sm:h-[18px]" />,
       label: "Toggle Theme",
       onClick: toggleTheme,
     },
@@ -193,7 +193,7 @@ export default function Dock({ onSettingsOpen, onAddTask, settings }: DockCompon
               isHovered.set(0)
               mouseX.set(Number.POSITIVE_INFINITY)
             }}
-            className="flex items-center w-fit gap-2 rounded-2xl border border-black/30 dark:border-white/30 py-2 px-3"
+            className="flex items-center w-fit gap-1 sm:gap-2 rounded-2xl border border-black/30 dark:border-white/30 py-2 px-2 sm:px-3"
             style={{ height: panelHeight }}
             role="toolbar"
             aria-label="Application dock"

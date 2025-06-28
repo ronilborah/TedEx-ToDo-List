@@ -80,18 +80,18 @@ export default function EditTaskPage({ params }: EditTaskPageProps) {
       }}
     >
       <div className="min-h-screen" style={{ filter: "brightness(1.43)" }}>
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-4 sm:py-8">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-8 text-center text-high-contrast">Edit Task</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8 text-center text-high-contrast break-words">Edit Task</h1>
 
             {error && (
-              <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                <p className="font-semibold">Error:</p>
-                <p>{error}</p>
+              <div className="mb-4 p-3 sm:p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                <p className="font-semibold text-sm sm:text-base">Error:</p>
+                <p className="text-sm sm:text-base break-words">{error}</p>
               </div>
             )}
 
-            <div className="bg-white/10 dark:bg-black/10 backdrop-blur-sm rounded-xl p-6">
+            <div className="bg-white/10 dark:bg-black/10 backdrop-blur-sm rounded-xl p-4 sm:p-6">
               <TodoForm
                 task={task}
                 onSubmit={handleSubmit}
