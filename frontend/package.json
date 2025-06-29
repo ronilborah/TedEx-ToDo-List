@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "concurrently \"next dev -p 5600\" \"npx open http://localhost:5600\"",
+    "dev": "concurrently \"next dev -p 9000\" \"open http://localhost:9000\"",
     "lint": "next lint",
-    "start": "next start -p 5600"
+    "start": "next start -p 9000"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
