@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev -p 5600",
+    "dev": "next dev -p 5600 & npx open http://localhost:5600",
     "lint": "next lint",
     "start": "next start -p 5600"
   },
@@ -67,6 +67,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "open": "^10.1.2",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
