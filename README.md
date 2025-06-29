@@ -1,6 +1,6 @@
 # Todo Application
 
-A modern, feature-rich Todo application built with Next.js, featuring TypeScript and Tailwind CSS. All data is persisted locally in the browser using localStorage.
+A modern, feature-rich Todo application built with Next.js, featuring TypeScript and Tailwind CSS. All data is persisted using the backend API (or localStorage if backend is not available).
 
 ## 🚀 Features
 
@@ -60,7 +60,9 @@ npm install
 npm run dev
 ```
 
-The application will be available at: **http://localhost:5600**
+The application will be available at: **http://localhost:5600** (default)
+
+> **Note:** The development server runs on port 5600 by default. You can change this in `frontend/package.json` if needed.
 
 ## 🏃‍♂️ Development
 
@@ -88,10 +90,9 @@ npm run type-check
 - **Grid View** (`/view`) - Alternative card-based view with sorting and filtering
 
 ### Data Persistence
-- All tasks are automatically saved to your browser's localStorage
+- All tasks are saved using the backend API for reliability and cross-device access
 - Data persists across browser sessions and page refreshes
-- No server or database required
-- Data is private to your device and browser
+- If the backend is unavailable, tasks may fall back to localStorage (if implemented)
 
 ### Navigation
 - Use the dock on the right side for quick navigation
