@@ -43,8 +43,8 @@ ToDoList/
 
 ### 1. Clone and Setup
 ```bash
-git clone <repository-url>
-cd ToDoList
+git clone https://github.com/ronilborah/TedEx-ToDo-List.git
+cd TedEx-ToDo-List
 ```
 
 ### 2. Install Dependencies
