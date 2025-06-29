@@ -22,3 +22,5 @@ cd frontend
 npm install
 npm run dev
 ```
+
+> The frontend will automatically open in your browser at http://localhost:5600 after running the last command.
